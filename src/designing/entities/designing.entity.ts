@@ -74,7 +74,7 @@ export class Designing {
     _id: false,
     default: new Technology(),
   })
-  photopolymer?: Technology;
+  technology?: Technology;
 
   @Prop({
     type: Assignment,
