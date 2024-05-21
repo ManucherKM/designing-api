@@ -7,6 +7,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScaningModule } from './scaning/scaning.module';
 import { ModelingModule } from './modeling/modeling.module';
 import { DesigningModule } from './designing/designing.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { DesigningModule } from './designing/designing.module';
     ScaningModule,
     ModelingModule,
     DesigningModule,
+    AuthModule,
+    JwtModule,
   ],
   controllers: [AppController],
   providers: [AppService],
