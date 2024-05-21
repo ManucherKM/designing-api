@@ -24,7 +24,28 @@ export class DesigningService {
     return foundModel;
   }
 
-  update(id: number, updateDesigningDto: UpdateDesigningDto) {
-    return `This action updates a #${id} designing`;
+  async findById(id: string) {
+    return await this.designingModel.findOne({
+      _id: id,
+    });
+  }
+
+  async update(id: string, updateDesigningDto: UpdateDesigningDto) {
+    const foundModel = await this.findById(id);
+
+    if (!foundModel) {
+      throw new Error('Model not found');
+    }
+
+    const formatedModel = foundModel.toObject();
+
+    const newModel = { ...formatedModel, ...updateDesigningDto };
+
+    const updateResults = await this.designingModel.updateOne(
+      { _id: id },
+      newModel,
+    );
+
+    return !!updateResults;
   }
 }

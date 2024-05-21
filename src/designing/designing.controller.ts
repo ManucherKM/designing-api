@@ -31,10 +31,17 @@ export class DesigningController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateDesigningDto: UpdateDesigningDto,
   ) {
-    return this.designingService.update(+id, updateDesigningDto);
+    try {
+      return await this.designingService.update(id, updateDesigningDto);
+    } catch (e) {
+      throw new HttpException(
+        { message: e.message },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

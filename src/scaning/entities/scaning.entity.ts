@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Exclude, Transform } from 'class-transformer';
+import { IsNumber } from 'class-validator';
 import { HydratedDocument, Types } from 'mongoose';
 
 export type ScaningDocument = HydratedDocument<Scaning>;
@@ -11,12 +12,15 @@ export class GeometryComplexity {
     this.hard = hard;
   }
 
+  @IsNumber()
   @Prop({ type: Number, default: 1.2 })
   easy: number;
 
+  @IsNumber()
   @Prop({ type: Number, default: 1.3 })
   normal: number;
 
+  @IsNumber()
   @Prop({ type: Number, default: 1.5 })
   hard: number;
 }

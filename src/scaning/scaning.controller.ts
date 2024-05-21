@@ -31,7 +31,17 @@ export class ScaningController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateScaningDto: UpdateScaningDto) {
-    return this.scaningService.update(+id, updateScaningDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateScaningDto: UpdateScaningDto,
+  ) {
+    try {
+      return await this.scaningService.update(id, updateScaningDto);
+    } catch (e) {
+      throw new HttpException(
+        { message: e.message },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

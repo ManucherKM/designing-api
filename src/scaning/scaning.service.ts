@@ -23,7 +23,28 @@ export class ScaningService {
     return foundModel;
   }
 
-  update(id: number, updateScaningDto: UpdateScaningDto) {
-    return `This action updates a #${id} scaning`;
+  async findById(id: string) {
+    return await this.scaningModel.findOne({
+      _id: id,
+    });
+  }
+
+  async update(id: string, updateScaningDto: UpdateScaningDto) {
+    const foundModel = await this.findById(id);
+
+    if (!foundModel) {
+      throw new Error('Model not found');
+    }
+
+    const formatedModel = foundModel.toObject();
+
+    const newModel = { ...formatedModel, ...updateScaningDto };
+
+    const updateResults = await this.scaningModel.updateOne(
+      { _id: id },
+      newModel,
+    );
+
+    return !!updateResults;
   }
 }

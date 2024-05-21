@@ -31,10 +31,17 @@ export class ModelingController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateModelingDto: UpdateModelingDto,
   ) {
-    return this.modelingService.update(+id, updateModelingDto);
+    try {
+      return await this.modelingService.update(id, updateModelingDto);
+    } catch (e) {
+      throw new HttpException(
+        { message: e.message },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

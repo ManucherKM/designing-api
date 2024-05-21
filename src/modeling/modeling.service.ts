@@ -24,7 +24,28 @@ export class ModelingService {
     return foundModel;
   }
 
-  update(id: number, updateModelingDto: UpdateModelingDto) {
-    return `This action updates a #${id} modeling`;
+  async findById(id: string) {
+    return await this.modelingModel.findOne({
+      _id: id,
+    });
+  }
+
+  async update(id: string, updateModelingDto: UpdateModelingDto) {
+    const foundModel = await this.findById(id);
+
+    if (!foundModel) {
+      throw new Error('Model not found');
+    }
+
+    const formatedModel = foundModel.toObject();
+
+    const newModel = { ...formatedModel, ...updateModelingDto };
+
+    const updateResults = await this.modelingModel.updateOne(
+      { _id: id },
+      newModel,
+    );
+
+    return !!updateResults;
   }
 }
