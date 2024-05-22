@@ -45,6 +45,6 @@ export class ScaningService {
       newModel,
     );
 
-    return !!updateResults;
+    return !!updateResults.modifiedCount;
   }
 }

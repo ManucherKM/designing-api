@@ -31,12 +31,34 @@ export class DesigningController {
   }
 
   @Patch(':id')
+  @UseInterceptors(SerializerInterceptor(Designing))
   async update(
     @Param('id') id: string,
     @Body() updateDesigningDto: UpdateDesigningDto,
   ) {
     try {
-      return await this.designingService.update(id, updateDesigningDto);
+      const isUpdated = await this.designingService.update(
+        id,
+        updateDesigningDto,
+      );
+
+      if (!isUpdated) {
+        throw new HttpException(
+          { message: 'Failed to update the model.' },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const foundModel = await this.designingService.findById(id);
+
+      if (!foundModel) {
+        throw new HttpException(
+          { message: 'Failed to retrieve the model.' },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return foundModel;
     } catch (e) {
       throw new HttpException(
         { message: e.message },

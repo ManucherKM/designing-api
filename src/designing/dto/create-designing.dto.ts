@@ -46,6 +46,20 @@ class Assignment {
   technical: number;
 }
 
+class Postprocessing {
+  @IsNumber()
+  @IsOptional()
+  easy: number;
+
+  @IsNumber()
+  @IsOptional()
+  normal: number;
+
+  @IsNumber()
+  @IsOptional()
+  hard: number;
+}
+
 export class CreateDesigningDto {
   @IsDefined()
   @IsNotEmptyObject()
@@ -68,7 +82,10 @@ export class CreateDesigningDto {
   @Type(() => Assignment)
   assignment: Assignment;
 
-  @IsNumber()
-  @IsOptional()
-  postprocessing: number;
+  @IsDefined()
+  @IsNotEmptyObject()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => Postprocessing)
+  postprocessing: Postprocessing;
 }

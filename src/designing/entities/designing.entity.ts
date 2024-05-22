@@ -55,6 +55,23 @@ export class Assignment {
   technical: number;
 }
 
+export class Postprocessing {
+  constructor(easy: number = 1.2, normal: number = 1.3, hard: number = 1.5) {
+    this.easy = easy;
+    this.normal = normal;
+    this.hard = hard;
+  }
+
+  @Prop({ type: Number, default: 1.2 })
+  easy: number;
+
+  @Prop({ type: Number, default: 1.3 })
+  normal: number;
+
+  @Prop({ type: Number, default: 1.5 })
+  hard: number;
+}
+
 @Schema({
   timestamps: true,
 })
@@ -83,8 +100,12 @@ export class Designing {
   })
   assignment?: Assignment;
 
-  @Prop({ type: Number, default: 1.8 })
-  postprocessing: number;
+  @Prop({
+    type: Postprocessing,
+    _id: false,
+    default: new Postprocessing(),
+  })
+  postprocessing?: Postprocessing;
 
   @Exclude()
   updatedAt: Date;

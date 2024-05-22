@@ -46,6 +46,6 @@ export class DesigningService {
       newModel,
     );
 
-    return !!updateResults;
+    return !!updateResults.modifiedCount;
   }
 }

@@ -31,12 +31,31 @@ export class ScaningController {
   }
 
   @Patch(':id')
+  @UseInterceptors(SerializerInterceptor(Scaning))
   async update(
     @Param('id') id: string,
     @Body() updateScaningDto: UpdateScaningDto,
   ) {
     try {
-      return await this.scaningService.update(id, updateScaningDto);
+      const isUpdated = await this.scaningService.update(id, updateScaningDto);
+
+      if (!isUpdated) {
+        throw new HttpException(
+          { message: 'Failed to update the model.' },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const foundModel = await this.scaningService.findById(id);
+
+      if (!foundModel) {
+        throw new HttpException(
+          { message: 'Failed to retrieve the model.' },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return foundModel;
     } catch (e) {
       throw new HttpException(
         { message: e.message },
