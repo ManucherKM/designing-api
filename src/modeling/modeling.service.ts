@@ -19,7 +19,7 @@ export class ModelingService {
   }
 
   async getCurrent() {
-    const foundModel = await this.modelingModel.findOne({}, { _id: false });
+    const foundModel = await this.modelingModel.findOne({});
 
     return foundModel;
   }

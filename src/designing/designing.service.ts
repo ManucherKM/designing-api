@@ -19,7 +19,7 @@ export class DesigningService {
   }
 
   async getCurrent() {
-    const foundModel = await this.designingModel.findOne({}, { _id: false });
+    const foundModel = await this.designingModel.findOne({});
 
     return foundModel;
   }

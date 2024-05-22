@@ -18,7 +18,7 @@ export class ScaningService {
   }
 
   async getCurrent() {
-    const foundModel = await this.scaningModel.findOne({}, { _id: false });
+    const foundModel = await this.scaningModel.findOne({});
 
     return foundModel;
   }
